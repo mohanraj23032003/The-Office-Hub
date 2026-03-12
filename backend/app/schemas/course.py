@@ -7,6 +7,11 @@ class CreateCourse(BaseModel):
     duration : str
     description : str
 
+class CourseUpdate(BaseModel):
+    course_name : str
+    duration : str
+    description : str
+
 
 class CourseResponse(BaseModel):
     id : int

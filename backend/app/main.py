@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.database.db import engine, Base
 from app.models import user, staff, student, course, topic, batch, student_attendance, staff_attendance, payroll, leave
-from app.routers import user_router
+from app.routers import user_router,staff_router,course_router
 
 app = FastAPI()
 
@@ -10,6 +10,9 @@ Base.metadata.create_all(bind=engine)
 
 # include routers
 app.include_router(user_router.router)
+app.include_router(staff_router.router)
+app.include_router(course_router.router)
+
 
 @app.get("/")
 def home():
