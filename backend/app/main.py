@@ -20,15 +20,12 @@ Base.metadata.create_all(bind=engine)
 
 # include routers
 app.include_router(user_router.router)
-<<<<<<< HEAD
 app.include_router(student.router)
 app.include_router(admin_router.router)
 app.include_router(auth_router.router)
-=======
 app.include_router(staff_router.router)
 app.include_router(course_router.router)
 app.include_router(batch_router.router)
->>>>>>> 4cd4a1d49a0a48e771685ab4c7e574ae84e23742
 
 
 @app.get("/")
