@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from app.database.db import engine, Base
 # from app.models import user, staff, student, course, topic, batch, student_attendance, staff_attendance, payroll, leave
-from app.routers import student,user_router,admin_router,auth_router
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import user_router,staff_router,course_router,batch_router
+from app.routers import user_router,staff_router,course_router,batch_router,student_router,admin_router,auth_router
 
 app = FastAPI()
 
@@ -20,7 +19,7 @@ Base.metadata.create_all(bind=engine)
 
 # include routers
 app.include_router(user_router.router)
-app.include_router(student.router)
+app.include_router(student_router.router)
 app.include_router(admin_router.router)
 app.include_router(auth_router.router)
 app.include_router(staff_router.router)
