@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,HTTPException
 from sqlalchemy.orm import Session
 from app.database.db import get_db
 from app.models.course import Course
@@ -28,7 +28,7 @@ def getCourse(id : int , db : Session =  Depends(get_db)):
     if get_Course:
         return get_Course
     else:
-        return "Course Not Found"
+        raise HTTPException(status_code=404, detail="Course not found")
 
 @router.put("/{id}",response_model=CourseResponse)
 def updateCourse(id : int ,course : CourseUpdate,db : Session = Depends(get_db)):
@@ -40,7 +40,7 @@ def updateCourse(id : int ,course : CourseUpdate,db : Session = Depends(get_db))
         db.refresh(update_course)
         return update_course
     else:
-        return "Course Not Found"
+        raise HTTPException(status_code=404, detail="Course not found")
     
 @router.delete("/{id}")
 def deleteCourse(id : int, db : Session = Depends(get_db)):
@@ -50,7 +50,7 @@ def deleteCourse(id : int, db : Session = Depends(get_db)):
         db.commit()
         return "Course Deleted Successfully"
     else:
-        return "Course Not Found" 
+        raise HTTPException(status_code=404, detail="Course not found") 
     
 
 

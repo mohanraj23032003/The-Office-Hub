@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,HTTPException
 from app.schemas.staff import StaffCreate,StaffResponse,StaffUpdate
 from app.database.db import get_db
 from sqlalchemy.orm import Session
@@ -16,19 +16,19 @@ def create_staff(staff: StaffCreate, db: Session = Depends(get_db)):
     db.refresh(new_staff)
     return new_staff
 
-@router.get("/")
+@router.get("/",response_model=list[StaffResponse])
 def get_staffs(db: Session = Depends(get_db)):
     return db.query(Staff).all()
 
-@router.get("/{id}")
+@router.get("/{id}",response_model=StaffResponse)
 def get_staff(id : int, db : Session = Depends(get_db)):
     getStaff = db.query(Staff).filter(Staff.id == id).first()
     if getStaff:
         return getStaff
     else:
-        return "Staff Not Found"
+        raise HTTPException(status_code=404, detail="Staff not found")
     
-@router.put("/{id}")
+@router.put("/{id}",response_model=StaffResponse)
 def update_staff(id : int ,staffUpdate : StaffUpdate, db : Session = Depends(get_db)):
     updateStaff = db.query(Staff).filter(Staff.id == id).first()
     if updateStaff:
@@ -36,9 +36,9 @@ def update_staff(id : int ,staffUpdate : StaffUpdate, db : Session = Depends(get
             setattr(updateStaff,key,value)
         db.commit()
         db.refresh(updateStaff)
-        return "Staff Updated Succesfully"
+        return updateStaff
     else:
-        return "Staff Not Found"
+        raise HTTPException(status_code=404, detail="Staff not found")
 
 @router.delete("/{id}")
 def del_staff(id : int , db : Session = Depends(get_db)):
@@ -48,5 +48,5 @@ def del_staff(id : int , db : Session = Depends(get_db)):
         db.commit()
         return "Staff Deleted successfully"
     else:
-        return "Staff Not Found"
+        raise HTTPException(status_code=404, detail="Staff not found")
 
