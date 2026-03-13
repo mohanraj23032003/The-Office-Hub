@@ -1,15 +1,30 @@
 from fastapi import FastAPI
 from app.database.db import engine, Base
-from app.models import user, staff, student, course, topic, batch, student_attendance, staff_attendance, payroll, leave
-from app.routers import user_router
+# from app.models import user, staff, student, course, topic, batch, student_attendance, staff_attendance, payroll, leave
+from app.routers import student,user_router,admin_router,auth_router
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # create database tables
 Base.metadata.create_all(bind=engine)
 
 # include routers
 app.include_router(user_router.router)
+app.include_router(student.router)
+app.include_router(admin_router.router)
+app.include_router(auth_router.router)
+
 
 @app.get("/")
 def home():

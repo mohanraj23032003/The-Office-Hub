@@ -9,7 +9,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 
 # ----------------------------------------
-# User Details
+#User Details
 #-----------------------------------------
 
 @router.post("/", response_model=UserResponse)
