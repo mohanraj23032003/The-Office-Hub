@@ -1,28 +1,23 @@
-from pydantic import BaseModel,EmailStr
-from datetime import date
-
-
+from pydantic import BaseModel, EmailStr
 
 class StaffCreate(BaseModel):
-    name : str
-    email : EmailStr
-    designation : str
-    phone : str
-    join_date : date
+    name: str
+    email: EmailStr
+    phone: str
+    password: str
+    experience: str
+    achievements: str
+    course: str
 
-class StaffUpdate(BaseModel):
-    name : str
-    designation : str
-    phone : str
 
 class StaffResponse(BaseModel):
-    id : int
-    name : str
-    email : EmailStr
-    designation : str
-    phone : str
-    join_date : date
+    id: int
+    name: str
+    email: EmailStr
+    phone: str
+    experience: str
+    achievements: str
+    course: str
 
     class Config:
         from_attributes = True
- 
