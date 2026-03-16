@@ -24,6 +24,7 @@ class LeaveResponse(BaseModel):
     reason : str
     status : str
 
+
     class Config:
         from_attributes : True
 
