@@ -40,3 +40,12 @@ def updateAttendance(id : int,attendance : AttendanceUpdate , db : Session = Dep
         raise HTTPException(status_code=404,detail="Staff Attendance not found")
 
 
+@router.delete("/{id}")
+def delAttendance(id : int ,db : Session = Depends(get_db)):
+    del_Attendance = db.query(StaffAttendance).filter(StaffAttendance.id == id).first()
+    if del_Attendance:
+        db.delete(del_Attendance)
+        db.commit()
+        return f"id : {id} : Attendance Deleted Successfully"
+    else:
+        raise HTTPException(status_code=404, detail="Attendance Not Found")

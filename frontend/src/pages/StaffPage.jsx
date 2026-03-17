@@ -23,7 +23,7 @@ const [editId, setEditId] = useState(null);
 
 const loadStaff = () => {
 
-axios.get(`http://127.0.0.1:8000/staff?search=${search}`)
+axios.get(`http://127.0.0.1:8000/staff/?search=${search}`)
 .then((res)=>{
 setStaff(res.data)
 })
