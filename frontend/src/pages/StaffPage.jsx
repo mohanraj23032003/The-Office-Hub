@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./StaffPage.css";
 
 function StaffPage() {
+
+const navigate = useNavigate();
 
 const [staff, setStaff] = useState([]);
 
@@ -43,7 +46,7 @@ setForm({...form,[e.target.name]:e.target.value})
     const payload = { ...form };
 
     if (editId) {
-      axios.put(`http://127.0.0.1:8000/staff/${editId}/`, payload).then(() => {
+      axios.put(`http://127.0.0.1:8000/staff/${editId}`, payload).then(() => {
         setEditId(null);
         setForm({
           name: "",
@@ -90,6 +93,8 @@ setForm({...form,[e.target.name]:e.target.value})
       course: s.course || "",
     });
   };
+
+  
 
   return (
     <div className="staff-container">
@@ -155,6 +160,13 @@ setForm({...form,[e.target.name]:e.target.value})
 
         <button onClick={handleSubmit} className="main-btn">
           {editId ? "Update Staff" : "Add Staff"}
+        </button>
+
+        <button
+        onClick={()=>navigate("/admin")}
+        className="back-btn"
+        >
+        Back to Dashboard
         </button>
       </div>
 

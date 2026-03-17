@@ -1,0 +1,41 @@
+.batch-container{
+padding:40px;
+}
+
+.batch-form{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.batch-form input,
+.batch-form select{
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.batch-form button{
+background:#0ea5e9;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+}
+
+.batch-table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+.batch-table th{
+background:#0ea5e9;
+color:white;
+padding:10px;
+}
+
+.batch-table td{
+padding:10px;
+text-align:center;
+}
