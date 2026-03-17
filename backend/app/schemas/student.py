@@ -4,6 +4,7 @@ class CreateStudent(BaseModel):
     name : str
     email : EmailStr
     phone : str
+    password: str
     course_id : int
     batch_id : int
     staff_id : int

@@ -6,6 +6,8 @@ from app.models.admin import Admin
 from app.models.staff import Staff
 from app.models.student import Student
 
+from app.schemas.auth import LoginRequest
+
 from app.auth.hash import verify_password
 from app.auth.jwt import create_access_token
 
@@ -13,17 +15,13 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 @router.post("/login")
-def login(data: dict, db: Session = Depends(get_db)):
+def login(data: LoginRequest, db: Session = Depends(get_db)):
 
-    email = data.get("email")
-    password = data.get("password")
+    email = data.email
+    password = data.password
 
-    # -------------------
-    # check admin
-    # -------------------
-
+    # ADMIN
     admin = db.query(Admin).filter(Admin.email == email).first()
-
     if admin and verify_password(password, admin.password):
 
         token = create_access_token({
@@ -36,12 +34,8 @@ def login(data: dict, db: Session = Depends(get_db)):
             "role": "admin"
         }
 
-    # -------------------
-    # check staff
-    # -------------------
-
+    # STAFF
     staff = db.query(Staff).filter(Staff.email == email).first()
-
     if staff and verify_password(password, staff.password):
 
         token = create_access_token({
@@ -54,12 +48,8 @@ def login(data: dict, db: Session = Depends(get_db)):
             "role": "staff"
         }
 
-    # -------------------
-    # check student
-    # -------------------
-
+    # STUDENT
     student = db.query(Student).filter(Student.email == email).first()
-
     if student and verify_password(password, student.password):
 
         token = create_access_token({

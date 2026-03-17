@@ -10,7 +10,8 @@ class Student(Base):
     name = Column(String)
     email = Column(String)
     phone = Column(String)
-
+    password = Column(String)
+    
     course_id = Column(Integer, ForeignKey("courses.id"))
     batch_id = Column(Integer, ForeignKey("batches.id"))
     staff_id = Column(Integer, ForeignKey("staff.id"))

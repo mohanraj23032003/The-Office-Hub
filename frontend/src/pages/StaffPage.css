@@ -135,3 +135,18 @@ opacity:1;
 transform:translateY(0);
 }
 }
+
+.back-btn{
+background:#f59e0b;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.back-btn:hover{
+background:#d97706;
+transform:scale(1.05);
+}

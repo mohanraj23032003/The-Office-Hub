@@ -1,105 +1,131 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { FaUserShield, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
+import Particles from "react-tsparticles";
+import "./Login.css";
 
-function Login() {
+function Login(){
 
-const navigate = useNavigate();
+const navigate = useNavigate()
 
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+const [role,setRole] = useState("")
+const [email,setEmail] = useState("")
+const [password,setPassword] = useState("")
 
-const login = async (e) => {
-e.preventDefault();
+const login = async(e)=>{
 
-try {
+e.preventDefault()
 
-const res = await axios.post("http://127.0.0.1:8000/auth/login", {
+try{
+
+const res = await axios.post("http://127.0.0.1:8000/auth/login",{
 email,
-password,
-});
+password
+})
 
-const role = res.data?.role?.toLowerCase();
+localStorage.setItem("token",res.data.access_token)
+localStorage.setItem("role",res.data.role)
 
-localStorage.setItem("token", res.data.access_token);
-localStorage.setItem("role", role);
+const r = res.data.role.toLowerCase()
 
-console.log(res.data);
+if(r==="admin") navigate("/admin")
+if(r==="staff") navigate("/staff-dashboard")
+if(r==="student") navigate("/student-dashboard")
 
-if (role === "admin") navigate("/admin");
-else if (role === "staff") navigate("/staff-dashboard");
-else if (role === "student") navigate("/student-dashboard");
+}catch(err){
 
-} catch (err) {
-
-console.log("Login Error:", err.response?.data);
-alert("Invalid email or password");
+alert("Invalid login")
 
 }
-};
 
-return (
+}
+
+
+return(
+
+<div className="login-wrapper">
+
+{/* Background Particles */}
+
+<Particles
+options={{
+particles:{
+number:{value:40},
+size:{value:3},
+move:{enable:true,speed:1}
+}
+}}
+/>
+
+<h1 className="portal-title">Learning Portal</h1>
+
+<div className="role-container">
 
 <div
-style={{
-height: "100vh",
-display: "flex",
-justifyContent: "center",
-alignItems: "center",
-background: "linear-gradient(135deg,#667eea,#764ba2)",
-}}
+className={`role-card ${role==="admin"?"active":""}`}
+onClick={()=>setRole("admin")}
 >
 
-<motion.form
-initial={{ opacity: 0, y: -40 }}
-animate={{ opacity: 1, y: 0 }}
-style={{
-background: "white",
-padding: "40px",
-borderRadius: "10px",
-width: "300px",
-}}
-onSubmit={login}
+<FaUserShield className="role-icon"/>
+<h3>Admin</h3>
+
+</div>
+
+
+<div
+className={`role-card ${role==="staff"?"active":""}`}
+onClick={()=>setRole("staff")}
 >
 
-<h2 style={{ textAlign: "center" }}>Login</h2>
+<FaChalkboardTeacher className="role-icon"/>
+<h3>Staff</h3>
+
+</div>
+
+
+<div
+className={`role-card ${role==="student"?"active":""}`}
+onClick={()=>setRole("student")}
+>
+
+<FaUserGraduate className="role-icon"/>
+<h3>Student</h3>
+
+</div>
+
+</div>
+
+
+{role && (
+
+<form className="login-card" onSubmit={login}>
+
+<h2>{role.toUpperCase()} Login</h2>
 
 <input
 placeholder="Email"
-value={email}
-autoComplete="email"
-onChange={(e) => setEmail(e.target.value)}
-style={{ width: "100%", padding: "10px", marginTop: "15px" }}
+onChange={(e)=>setEmail(e.target.value)}
 />
 
 <input
 type="password"
 placeholder="Password"
-value={password}
-autoComplete="current-password"
-onChange={(e) => setPassword(e.target.value)}
-style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+onChange={(e)=>setPassword(e.target.value)}
 />
 
-<button
-style={{
-width: "100%",
-marginTop: "20px",
-padding: "10px",
-background: "#667eea",
-color: "white",
-border: "none",
-cursor: "pointer",
-}}
->
+<button className="login-btn">
 Login
 </button>
 
-</motion.form>
+</form>
+
+)}
 
 </div>
-);
+
+)
+
 }
 
-export default Login;
+export default Login
